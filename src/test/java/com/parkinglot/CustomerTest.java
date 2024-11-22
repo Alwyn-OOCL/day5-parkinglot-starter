@@ -1,9 +1,14 @@
 package com.parkinglot;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,28 +35,29 @@ class CustomerTest {
         assertNotNull(ticket);
     }
 
-//    @Test
-//    void should_printMessage_when_park_given_parking_lot_and_car_and_parking_lot_is_full() {
-//        // given
-//        ParkingLot parkingLot = new ParkingLot();
-//        Car car = new Car();
-//        Customer customer = new Customer();
-//
-//        Set<Car> cars = new HashSet<>();
-//
-//        for (int i = 0; i < 10; i++) {
-//            cars.add(new Car(i));
-//        }
-//
-//        parkingLot.setCars(cars);
-//
-//        // when
-//        customer.park(parkingLot, car);
-//
-//        // then
-//        assertThat(systemOut()).contains("Not enough position.");
-//    }
-//
+    @Test
+    void should_printMessage_when_park_given_parking_lot_and_car_and_parking_lot_is_full() {
+        // given
+        ParkingLot parkingLot = new ParkingLot();
+        Car car = new Car();
+        Customer customer = new Customer();
+
+        Set<Car> cars = new HashSet<>();
+
+        for (int i = 0; i < 10; i++) {
+            cars.add(new Car(UUID.randomUUID().toString()));
+        }
+
+        parkingLot.setCars(cars);
+
+        // when
+        Ticket ticket = customer.park(parkingLot, car);
+
+        // then
+        assertThat(systemOut()).contains("Not enough position.");
+        assertNull(ticket);
+    }
+
 
     @Test
     void should_return_car_when_fetch_given_parking_lot_and_ticket() {
