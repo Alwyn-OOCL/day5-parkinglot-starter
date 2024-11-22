@@ -1,6 +1,7 @@
 package com.parkinglot;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -16,12 +17,9 @@ import org.junit.jupiter.api.Test;
 
 class CustomerTest {
 
-    private ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    public static final String NOT_AVAILABLE_POSITION = "Not available position.";
+    public static final String UNRECOGNIZED_PARKING_TICKET = "Unrecognized parking ticket.";
 
-    @BeforeEach
-    public void setup() {
-        System.setOut(new PrintStream(outContent));
-    }
 
     @Test
     void should_return_ticket_when_park_given_parking_lot_and_car() {
@@ -53,11 +51,10 @@ class CustomerTest {
         parkingLot.setCars(cars);
 
         // when
-        Ticket ticket = customer.park(parkingLot, car);
+        Exception exception = assertThrows(Exception.class, () -> customer.park(parkingLot, car));
 
         // then
-        assertThat(systemOut()).contains("Not available position.");
-        assertNull(ticket);
+        assertEquals(NOT_AVAILABLE_POSITION, exception.getMessage());
     }
 
 
@@ -84,15 +81,14 @@ class CustomerTest {
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
         Customer customer = new Customer();
-        Ticket ticket = customer.park(parkingLot ,car);
+        Ticket ticket = customer.park(parkingLot, car);
         Ticket wrongTicket = new Ticket(UUID.randomUUID().toString());
 
         // when
-        Car fetchedCar = customer.fetch(parkingLot, wrongTicket);
+        Exception exception = assertThrows(Exception.class, () -> customer.fetch(parkingLot, wrongTicket));
 
         // then
-        assertNull(fetchedCar);
-        assertThat(systemOut()).contains("Unrecognized parking ticket.");
+        assertEquals(NOT_AVAILABLE_POSITION, exception.getMessage());
     }
 
     @Test
@@ -105,15 +101,11 @@ class CustomerTest {
 
         // when
         customer.fetch(parkingLot, ticket);
-        Car secondFetchedCar = customer.fetch(parkingLot, ticket);
+        Exception exception = assertThrows(Exception.class, () -> customer.fetch(parkingLot, ticket));
 
         // then
-        assertNull(secondFetchedCar);
-        assertThat(systemOut()).contains("Unrecognized parking ticket.");
+        assertEquals(UNRECOGNIZED_PARKING_TICKET, exception.getMessage());
     }
 
-    private String systemOut() {
-        return outContent.toString();
-    }
 
 }
