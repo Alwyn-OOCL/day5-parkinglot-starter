@@ -47,20 +47,20 @@ public class CustomerTest {
 //    }
 //
 //
-//    @Test
-//    void should_return_car_when_fetch_given_parking_lot_and_ticket() {
-//        // given
-//        ParkingLot parkingLot = new ParkingLot();
-//        Car car = new Car();
-//        Customer customer = new Customer();
-//        Ticket ticket = customer.park(car);
-//
-//        // when
-//        Car fetchedCar = customer.fetch(ticket);
-//
-//        // then
-//        assertNotNull(fetchedCar);
-//    }
+    @Test
+    void should_return_car_when_fetch_given_parking_lot_and_ticket() {
+        // given
+        ParkingLot parkingLot = new ParkingLot();
+        Car car = new Car();
+        Customer customer = new Customer();
+        Ticket ticket = customer.park(car);
+
+        // when
+        Car fetchedCar = customer.fetch(ticket);
+
+        // then
+        assertNotNull(fetchedCar);
+    }
 //
 //    @Test
 //    void should_print_errorMessage_when_fetch_given_wrong_ticket() {
