@@ -219,5 +219,31 @@ class ParkingLotTest {
         assertEquals(UNRECOGNIZED_PARKING_TICKET, exception.getMessage());
     }
 
+    @Test
+    void should_print_message_when_parkCar_given_2_parkingLots_is_full_and_car_and_parkingBoy() {
+        // given
+        ParkingLot parkingLot1 = new ParkingLot();
+        ParkingLot parkingLot2 = new ParkingLot();
+        Car car = new Car();
+        List<ParkingLot> parkingLots = List.of(parkingLot1, parkingLot2);
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
+        Customer customer = new Customer(parkingBoy);
+
+        Set<Car> cars = new HashSet<>();
+
+        parkingLots.forEach(parkingLot -> {
+            for (int i = 0; i < 10; i++) {
+                cars.add(new Car(UUID.randomUUID().toString()));
+            }
+            parkingLot.setCars(cars);
+        });
+
+        // when
+        ParkingLotException exception = assertThrows(ParkingLotException.class, () -> customer.parkCar(parkingLot1, car));
+
+        // then
+        assertEquals(NOT_AVAILABLE_POSITION, exception.getMessage());
+    }
+
 
 }
