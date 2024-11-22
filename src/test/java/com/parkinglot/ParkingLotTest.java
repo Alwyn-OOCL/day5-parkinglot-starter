@@ -198,5 +198,26 @@ class ParkingLotTest {
         assertEquals(UNRECOGNIZED_PARKING_TICKET, exception.getMessage());
     }
 
+    @Test
+    void should_print_errorMessage_when_fetch_given_usedTicket_and_2_parkingLots_and_parkingBoy() {
+        // given
+        ParkingLot parkingLot1 = new ParkingLot();
+        ParkingLot parkingLot2 = new ParkingLot();
+        Car car1 = new Car();
+        Car car2 = new Car();
+        ParkingBoy parkingBoy = new ParkingBoy(List.of(parkingLot1, parkingLot2));
+        Customer customer = new Customer(parkingBoy);
+        Ticket ticket1 = customer.parkCar(parkingLot1, car1);
+        Ticket ticket2 = customer.parkCar(parkingLot2, car2);
+
+        // when
+        customer.fetchCar(parkingLot1, ticket1);
+        customer.fetchCar(parkingLot2, ticket1);
+        ParkingLotException exception = assertThrows(ParkingLotException.class, () -> customer.fetchCar(parkingLot1, ticket1));
+
+        // then
+        assertEquals(UNRECOGNIZED_PARKING_TICKET, exception.getMessage());
+    }
+
 
 }
