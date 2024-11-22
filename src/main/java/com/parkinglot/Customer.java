@@ -4,42 +4,21 @@ public class Customer {
 
     private String id;
 
-    public Customer() {
-    }
-
-    public Customer(String id) {
-        this.id = id;
-    }
+    private ParkingBoy parkingBoy;
 
     public Ticket parkCar(ParkingLot parkingLot, Car car) {
-        processParkCar(parkingLot, car);
-        return getGenerateTicket(parkingLot, car);
-    }
-
-    private Ticket getGenerateTicket(ParkingLot parkingLot, Car car) {
-        Ticket generateTicket = Ticket.generateTicket();
-        parkingLot.getTicketToCarMap().put(generateTicket, car);
-        return generateTicket;
-    }
-
-    private void processParkCar(ParkingLot parkingLot, Car car) {
-        parkingLot.checkCapacity();
-        parkingLot.getCars().add(car);
+        return parkingBoy.parkCar(parkingLot, car);
     }
 
     public Car fetchCar(ParkingLot parkingLot, Ticket ticket) {
-        Car car = processFetchCar(parkingLot, ticket);
-        removeCarFromParkingLot(parkingLot, ticket, car);
-        return car;
+        return parkingBoy.fetchCar(parkingLot, ticket);
     }
 
-    private Car processFetchCar(ParkingLot parkingLot, Ticket ticket) {
-        parkingLot.verifyTicket(ticket);
-        return parkingLot.getTicketToCarMap().get(ticket);
+    public Customer() {
     }
 
-    private void removeCarFromParkingLot(ParkingLot parkingLot, Ticket ticket, Car car) {
-        parkingLot.getCars().remove(car);
-        parkingLot.getTicketToCarMap().remove(ticket);
+    public Customer(ParkingBoy parkingBoy) {
+        this.parkingBoy = parkingBoy;
     }
+
 }

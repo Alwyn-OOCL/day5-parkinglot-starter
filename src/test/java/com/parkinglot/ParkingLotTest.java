@@ -16,11 +16,12 @@ class ParkingLotTest {
     public static final String UNRECOGNIZED_PARKING_TICKET = "Unrecognized parking ticket.";
 
     @Test
-    void should_return_ticket_when_park_given_parking_lot_and_car() {
+    void should_return_ticket_when_park_given_parking_lot_and_car_and_parkingBoy() {
         // given
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
-        Customer customer = new Customer();
+        ParkingBoy parkingBoy = new ParkingBoy();
+        Customer customer = new Customer(parkingBoy);
 
         // when
         Ticket ticket = customer.parkCar(parkingLot, car);
@@ -30,11 +31,12 @@ class ParkingLotTest {
     }
 
     @Test
-    void should_printMessage_when_park_given_parking_lot_and_car_and_parking_lot_is_full() {
+    void should_printMessage_when_park_given_parking_lot_and_car_and_parkingBoy_and_parking_lot_is_full() {
         // given
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
-        Customer customer = new Customer();
+        ParkingBoy parkingBoy = new ParkingBoy();
+        Customer customer = new Customer(parkingBoy);
 
         Set<Car> cars = new HashSet<>();
 
@@ -53,11 +55,12 @@ class ParkingLotTest {
 
 
     @Test
-    void should_return_car_when_fetch_given_parking_lot_and_ticket() {
+    void should_return_car_when_fetch_given_parking_lot_and_ticket_and_parkingBoy() {
         // given
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
-        Customer customer = new Customer();
+        ParkingBoy parkingBoy = new ParkingBoy();
+        Customer customer = new Customer(parkingBoy);
         Ticket ticket = customer.parkCar(parkingLot, car);
 
         // when
@@ -70,11 +73,12 @@ class ParkingLotTest {
     }
 
     @Test
-    void should_print_errorMessage_when_fetch_given_wrong_ticket() {
+    void should_print_errorMessage_when_fetch_given_wrong_ticket_and_parkingBoy() {
         // given
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
-        Customer customer = new Customer();
+        ParkingBoy parkingBoy = new ParkingBoy();
+        Customer customer = new Customer(parkingBoy);
         customer.parkCar(parkingLot, car);
         Ticket wrongTicket = new Ticket(UUID.randomUUID().toString());
 
@@ -86,11 +90,12 @@ class ParkingLotTest {
     }
 
     @Test
-    void should_print_errorMessage_when_fetch_given_usedTicket() {
+    void should_print_errorMessage_when_fetch_given_usedTicket_and_parkingBoy() {
         // given
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
-        Customer customer = new Customer();
+        ParkingBoy parkingBoy = new ParkingBoy();
+        Customer customer = new Customer(parkingBoy);
         Ticket ticket = customer.parkCar(parkingLot, car);
 
         // when
