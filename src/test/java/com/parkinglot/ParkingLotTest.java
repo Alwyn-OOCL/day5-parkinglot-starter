@@ -212,11 +212,12 @@ class ParkingLotTest {
 
         // when
         customer.fetchCar(parkingLot1, ticket1);
-        customer.fetchCar(parkingLot2, ticket1);
-        ParkingLotException exception = assertThrows(ParkingLotException.class, () -> customer.fetchCar(parkingLot1, ticket1));
+        ParkingLotException exception1 = assertThrows(ParkingLotException.class, () -> customer.fetchCar(parkingLot2, ticket1));
+        ParkingLotException exception2 = assertThrows(ParkingLotException.class, () -> customer.fetchCar(parkingLot1, ticket1));
 
         // then
-        assertEquals(UNRECOGNIZED_PARKING_TICKET, exception.getMessage());
+        assertEquals(UNRECOGNIZED_PARKING_TICKET, exception1.getMessage());
+        assertEquals(UNRECOGNIZED_PARKING_TICKET, exception2.getMessage());
     }
 
     @Test

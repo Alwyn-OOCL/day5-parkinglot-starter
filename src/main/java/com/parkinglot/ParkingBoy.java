@@ -35,8 +35,9 @@ public class ParkingBoy {
     }
 
     private Car processFetchCar(ParkingLot parkingLot, Ticket ticket) {
-        parkingLot.verifyTicket(ticket);
-        return parkingLot.getTicketToCarMap().get(ticket);
+        ParkingLot parkingParkingLot = getFetchingParkingLot(parkingLot, ticket);
+        parkingParkingLot.verifyTicket(ticket);
+        return parkingParkingLot.getTicketToCarMap().get(ticket);
     }
 
     private void removeCarFromParkingLot(ParkingLot parkingLot, Ticket ticket, Car car) {
@@ -44,12 +45,32 @@ public class ParkingBoy {
         parkingLot.getTicketToCarMap().remove(ticket);
     }
 
-    private ParkingLot getParkingParkingLot(ParkingLot parkingLot) {
+    private ParkingLot getFetchingParkingLot(ParkingLot parkingLot, Ticket ticket) {
+        checkIfEmptyParkingLots();
+
+        if (checkIfFirstParkingLot(parkingLot)) {
+            return parkingLot;
+        }
+
+        int parkingLotIndex = IntStream.range(0, parkingLots.size())
+                .filter(i -> parkingLots.get(i).getTicketToCarMap().containsKey(ticket)).findFirst()
+                .orElseThrow(() -> new ParkingLotException(ParkingLot.UNRECOGNIZED_PARKING_TICKET));
+        return parkingLots.get(parkingLotIndex);
+    }
+
+    private boolean checkIfFirstParkingLot(ParkingLot parkingLot) {
+        return Objects.equals(parkingLots.get(0), parkingLot) && parkingLot.isAvailable();
+    }
+
+    private void checkIfEmptyParkingLots() {
         if (parkingLots.isEmpty()) {
             throw new ParkingLotException(ParkingLot.NOT_AVAILABLE_POSITION);
         }
+    }
 
-        if (Objects.equals(parkingLots.get(0), parkingLot) && parkingLot.isAvailable()) {
+    private ParkingLot getParkingParkingLot(ParkingLot parkingLot) {
+        checkIfEmptyParkingLots();
+        if (checkIfFirstParkingLot(parkingLot)) {
             return parkingLot;
         }
 
