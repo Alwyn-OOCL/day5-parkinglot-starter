@@ -26,13 +26,13 @@ public class CustomerTest {
         Customer customer = new Customer();
 
         // when
-        Ticket ticket = customer.park(car);
+        Ticket ticket = customer.park(parkingLot, car);
 
         // then
         assertNotNull(ticket);
     }
 
-//    @Test
+    //    @Test
 //    void should_printMessage_when_park_given_parking_lot_and_car_and_parking_lot_is_full() {
 //        // given
 //        ParkingLot parkingLot = new ParkingLot();
@@ -53,10 +53,10 @@ public class CustomerTest {
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
         Customer customer = new Customer();
-        Ticket ticket = customer.park(car);
+        Ticket ticket = customer.park(parkingLot, car);
 
         // when
-        Car fetchedCar = customer.fetch(ticket);
+        Car fetchedCar = customer.fetch(parkingLot, ticket);
 
         // then
         assertNotNull(fetchedCar);
