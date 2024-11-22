@@ -31,7 +31,7 @@ public class ParkingLot {
 
     public boolean checkCapacity() {
         if (cars.size() >= DEFAULT_CAPACITY) {
-            System.out.println("Not enough position.");
+            System.out.println("Not available position.");
             return false;
         }
         return true;

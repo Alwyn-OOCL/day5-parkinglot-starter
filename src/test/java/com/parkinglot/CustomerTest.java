@@ -54,7 +54,7 @@ class CustomerTest {
         Ticket ticket = customer.park(parkingLot, car);
 
         // then
-        assertThat(systemOut()).contains("Not enough position.");
+        assertThat(systemOut()).contains("Not available position.");
         assertNull(ticket);
     }
 
