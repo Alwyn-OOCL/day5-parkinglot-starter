@@ -1,7 +1,5 @@
 package com.parkinglot;
 
-import java.util.Set;
-
 public class Customer {
 
     private String id;
@@ -13,19 +11,35 @@ public class Customer {
         this.id = id;
     }
 
-    public Ticket park(ParkingLot parkingLot, Car car) {
-        parkingLot.checkCapacity();
-        parkingLot.getCars().add(car);
+    public Ticket parkCar(ParkingLot parkingLot, Car car) {
+        processParkCar(parkingLot, car);
+        return getGenerateTicket(parkingLot, car);
+    }
+
+    private Ticket getGenerateTicket(ParkingLot parkingLot, Car car) {
         Ticket generateTicket = Ticket.generateTicket();
         parkingLot.getTicketToCarMap().put(generateTicket, car);
         return generateTicket;
     }
 
-    public Car fetch(ParkingLot parkingLot, Ticket ticket) {
+    private void processParkCar(ParkingLot parkingLot, Car car) {
+        parkingLot.checkCapacity();
+        parkingLot.getCars().add(car);
+    }
+
+    public Car fetchCar(ParkingLot parkingLot, Ticket ticket) {
+        Car car = processFetchCar(parkingLot, ticket);
+        removeCarFromParkingLot(parkingLot, ticket, car);
+        return car;
+    }
+
+    private Car processFetchCar(ParkingLot parkingLot, Ticket ticket) {
         parkingLot.verifyTicket(ticket);
-        Car car = parkingLot.getTicketToCarMap().get(ticket);
+        return parkingLot.getTicketToCarMap().get(ticket);
+    }
+
+    private void removeCarFromParkingLot(ParkingLot parkingLot, Ticket ticket, Car car) {
         parkingLot.getCars().remove(car);
         parkingLot.getTicketToCarMap().remove(ticket);
-        return car;
     }
 }

@@ -34,13 +34,13 @@ public class ParkingLot {
 
     public void checkCapacity() {
         if (cars.size() >= DEFAULT_CAPACITY) {
-            throw new RuntimeException(NOT_AVAILABLE_POSITION);
+            throw new ParkingLotException(NOT_AVAILABLE_POSITION);
         }
     }
 
     public void verifyTicket(Ticket ticket) {
         if (!ticketToCarMap.containsKey(ticket)) {
-            throw new RuntimeException(UNRECOGNIZED_PARKING_TICKET);
+            throw new ParkingLotException(UNRECOGNIZED_PARKING_TICKET);
         }
     }
 }

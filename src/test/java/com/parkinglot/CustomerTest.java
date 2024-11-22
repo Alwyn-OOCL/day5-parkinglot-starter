@@ -24,7 +24,7 @@ class CustomerTest {
         Customer customer = new Customer();
 
         // when
-        Ticket ticket = customer.park(parkingLot, car);
+        Ticket ticket = customer.parkCar(parkingLot, car);
 
         // then
         assertNotNull(ticket);
@@ -46,7 +46,7 @@ class CustomerTest {
         parkingLot.setCars(cars);
 
         // when
-        Exception exception = assertThrows(Exception.class, () -> customer.park(parkingLot, car));
+        ParkingLotException exception = assertThrows(ParkingLotException.class, () -> customer.parkCar(parkingLot, car));
 
         // then
         assertEquals(NOT_AVAILABLE_POSITION, exception.getMessage());
@@ -59,10 +59,10 @@ class CustomerTest {
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
         Customer customer = new Customer();
-        Ticket ticket = customer.park(parkingLot, car);
+        Ticket ticket = customer.parkCar(parkingLot, car);
 
         // when
-        Car fetchedCar = customer.fetch(parkingLot, ticket);
+        Car fetchedCar = customer.fetchCar(parkingLot, ticket);
 
         // then
         assertNotNull(fetchedCar);
@@ -76,11 +76,11 @@ class CustomerTest {
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
         Customer customer = new Customer();
-        Ticket ticket = customer.park(parkingLot, car);
+        Ticket ticket = customer.parkCar(parkingLot, car);
         Ticket wrongTicket = new Ticket(UUID.randomUUID().toString());
 
         // when
-        Exception exception = assertThrows(Exception.class, () -> customer.fetch(parkingLot, wrongTicket));
+        ParkingLotException exception = assertThrows(ParkingLotException.class, () -> customer.fetchCar(parkingLot, wrongTicket));
 
         // then
         assertEquals(UNRECOGNIZED_PARKING_TICKET, exception.getMessage());
@@ -92,11 +92,11 @@ class CustomerTest {
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
         Customer customer = new Customer();
-        Ticket ticket = customer.park(parkingLot, car);
+        Ticket ticket = customer.parkCar(parkingLot, car);
 
         // when
-        customer.fetch(parkingLot, ticket);
-        Exception exception = assertThrows(Exception.class, () -> customer.fetch(parkingLot, ticket));
+        customer.fetchCar(parkingLot, ticket);
+        ParkingLotException exception = assertThrows(ParkingLotException.class, () -> customer.fetchCar(parkingLot, ticket));
 
         // then
         assertEquals(UNRECOGNIZED_PARKING_TICKET, exception.getMessage());
