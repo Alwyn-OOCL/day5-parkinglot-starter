@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -104,6 +105,24 @@ class ParkingLotTest {
 
         // then
         assertEquals(UNRECOGNIZED_PARKING_TICKET, exception.getMessage());
+    }
+
+    @Test
+    void should_park_in_first_parking_lot_when_park_given_2_parkingLots_and_car_and_parkingBoy() {
+        // given
+        ParkingLot parkingLot1 = new ParkingLot();
+        ParkingLot parkingLot2 = new ParkingLot();
+        Car car = new Car();
+        ParkingBoy parkingBoy = new ParkingBoy(List.of(parkingLot1, parkingLot2));
+        Customer customer = new Customer(parkingBoy);
+
+        // when
+        Ticket ticket = customer.parkCar(parkingLot1, car);
+
+        // then
+        assertNotNull(ticket);
+        assertEquals(1, parkingLot1.getCars().size());
+        assertEquals(0, parkingLot2.getCars().size());
     }
 
 
