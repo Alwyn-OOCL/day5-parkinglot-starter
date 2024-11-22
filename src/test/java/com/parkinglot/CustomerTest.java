@@ -76,23 +76,23 @@ class CustomerTest {
         assertFalse(parkingLot.getCars().contains(fetchedCar));
         assertFalse(parkingLot.getTicketToCarMap().containsKey(ticket));
     }
-//
-//    @Test
-//    void should_print_errorMessage_when_fetch_given_wrong_ticket() {
-//        // given
-//        ParkingLot parkingLot = new ParkingLot();
-//        Car car = new Car();
-//        Customer customer = new Customer();
-//        Ticket ticket = customer.park(car);
-//        Ticket wrongTicket = new Ticket();
-//
-//        // when
-//        Car fetchedCar = customer.fetch(wrongTicket);
-//
-//        // then
-//        assertNull(fetchedCar);
-//        assertThat(systemOut()).contains("Unrecognized parking ticket.");
-//    }
+
+    @Test
+    void should_print_errorMessage_when_fetch_given_wrong_ticket() {
+        // given
+        ParkingLot parkingLot = new ParkingLot();
+        Car car = new Car();
+        Customer customer = new Customer();
+        Ticket ticket = customer.park(parkingLot ,car);
+        Ticket wrongTicket = new Ticket(UUID.randomUUID().toString());
+
+        // when
+        Car fetchedCar = customer.fetch(parkingLot, wrongTicket);
+
+        // then
+        assertNull(fetchedCar);
+        assertThat(systemOut()).contains("Unrecognized parking ticket.");
+    }
 //
 //    @Test
 //    void should_print_errorMessage_when_fetch_given_usedTicket() {
