@@ -10,11 +10,10 @@ import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
-class CustomerTest {
+class ParkingLotTest {
 
     public static final String NOT_AVAILABLE_POSITION = "Not available position.";
     public static final String UNRECOGNIZED_PARKING_TICKET = "Unrecognized parking ticket.";
-
 
     @Test
     void should_return_ticket_when_park_given_parking_lot_and_car() {
@@ -76,7 +75,7 @@ class CustomerTest {
         ParkingLot parkingLot = new ParkingLot();
         Car car = new Car();
         Customer customer = new Customer();
-        Ticket ticket = customer.parkCar(parkingLot, car);
+        customer.parkCar(parkingLot, car);
         Ticket wrongTicket = new Ticket(UUID.randomUUID().toString());
 
         // when
