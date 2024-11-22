@@ -1,6 +1,7 @@
 package com.parkinglot;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -72,6 +73,8 @@ class CustomerTest {
 
         // then
         assertNotNull(fetchedCar);
+        assertFalse(parkingLot.getCars().contains(fetchedCar));
+        assertFalse(parkingLot.getTicketToCarMap().containsKey(ticket));
     }
 //
 //    @Test
