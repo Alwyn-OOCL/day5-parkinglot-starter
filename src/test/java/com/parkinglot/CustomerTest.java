@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -93,24 +94,23 @@ class CustomerTest {
         assertNull(fetchedCar);
         assertThat(systemOut()).contains("Unrecognized parking ticket.");
     }
-//
-//    @Test
-//    void should_print_errorMessage_when_fetch_given_usedTicket() {
-//        // given
-//        ParkingLot parkingLot = new ParkingLot();
-//        Car car = new Car();
-//        Customer customer = new Customer();
-//        Ticket ticket = customer.park(car);
-//
-//        // when
-//        Car fetchedCar = customer.fetch(null);
-//
-//        Ticket usedTicket = new Ticket();
-//
-//        // then
-//        assertNull(fetchedCar);
-//        assertThat(systemOut()).contains("Unrecognized parking ticket.");
-//    }
+
+    @Test
+    void should_print_errorMessage_when_fetch_given_usedTicket() {
+        // given
+        ParkingLot parkingLot = new ParkingLot();
+        Car car = new Car();
+        Customer customer = new Customer();
+        Ticket ticket = customer.park(parkingLot, car);
+
+        // when
+        customer.fetch(parkingLot, ticket);
+        Car secondFetchedCar = customer.fetch(parkingLot, ticket);
+
+        // then
+        assertNull(secondFetchedCar);
+        assertThat(systemOut()).contains("Unrecognized parking ticket.");
+    }
 
     private String systemOut() {
         return outContent.toString();
