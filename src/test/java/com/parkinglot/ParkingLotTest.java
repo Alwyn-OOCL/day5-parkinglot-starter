@@ -117,7 +117,7 @@ class ParkingLotTest {
         Customer customer = new Customer(parkingBoy);
 
         // when
-        Ticket ticket = customer.parkCar(parkingLot1, car);
+        Ticket ticket = customer.parkCar(parkingLot2, car);
 
         // then
         assertNotNull(ticket);

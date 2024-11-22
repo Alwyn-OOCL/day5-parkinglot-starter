@@ -43,4 +43,8 @@ public class ParkingLot {
             throw new ParkingLotException(UNRECOGNIZED_PARKING_TICKET);
         }
     }
+
+    public boolean isAvailable() {
+        return cars.size() < DEFAULT_CAPACITY;
+    }
 }
