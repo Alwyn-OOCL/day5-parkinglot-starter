@@ -125,5 +125,31 @@ class ParkingLotTest {
         assertEquals(0, parkingLot2.getCars().size());
     }
 
+    @Test
+    void should_park_in_second_parking_lot_when_park_given_2_parkingLots_and_first_parking_lot_is_full_and_car_and_parkingBoy() {
+        // given
+        ParkingLot parkingLot1 = new ParkingLot();
+        ParkingLot parkingLot2 = new ParkingLot();
+        Car car = new Car();
+        ParkingBoy parkingBoy = new ParkingBoy(List.of(parkingLot1, parkingLot2));
+        Customer customer = new Customer(parkingBoy);
+
+        Set<Car> cars = new HashSet<>();
+
+        for (int i = 0; i < 10; i++) {
+            cars.add(new Car(UUID.randomUUID().toString()));
+        }
+
+        parkingLot1.setCars(cars);
+
+        // when
+        Ticket ticket = customer.parkCar(parkingLot1, car);
+
+        // then
+        assertNotNull(ticket);
+        assertEquals(10, parkingLot1.getCars().size());
+        assertEquals(1, parkingLot2.getCars().size());
+    }
+
 
 }
