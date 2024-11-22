@@ -151,5 +151,32 @@ class ParkingLotTest {
         assertEquals(1, parkingLot2.getCars().size());
     }
 
+    @Test
+    void should_return_2_car_when_fetch_given_2_parkingLots_and_2_ticket_and_parkingBoy() {
+        // given
+        ParkingLot parkingLot1 = new ParkingLot();
+        ParkingLot parkingLot2 = new ParkingLot();
+        Car car1 = new Car();
+        Car car2 = new Car();
+        ParkingBoy parkingBoy = new ParkingBoy(List.of(parkingLot1, parkingLot2));
+        Customer customer = new Customer(parkingBoy);
+        Ticket ticket1 = customer.parkCar(parkingLot1, car1);
+        Ticket ticket2 = customer.parkCar(parkingLot2, car2);
+
+        // when
+        Car fetchedCar1 = customer.fetchCar(parkingLot1, ticket1);
+        Car fetchedCar2 = customer.fetchCar(parkingLot2, ticket2);
+
+        // then
+        assertNotNull(fetchedCar1);
+        assertNotNull(fetchedCar2);
+        assertFalse(parkingLot1.getCars().contains(fetchedCar1));
+        assertFalse(parkingLot2.getCars().contains(fetchedCar2));
+        assertFalse(parkingLot1.getTicketToCarMap().containsKey(ticket1));
+        assertFalse(parkingLot2.getTicketToCarMap().containsKey(ticket2));
+        assertEquals(car1, fetchedCar1);
+        assertEquals(car2, fetchedCar2);
+    }
+
 
 }
