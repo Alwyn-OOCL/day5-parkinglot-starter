@@ -24,6 +24,12 @@ public class Customer {
     }
 
     public Car fetch(ParkingLot parkingLot, Ticket ticket) {
-        return new Car();
+        if (!parkingLot.verifyTicket(ticket)) {
+            return null;
+        }
+        Car car = parkingLot.getTicketToCarMap().get(ticket);
+        parkingLot.getCars().remove(car);
+        parkingLot.getTicketToCarMap().remove(ticket);
+        return car;
     }
 }

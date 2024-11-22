@@ -36,4 +36,12 @@ public class ParkingLot {
         }
         return true;
     }
+
+    public boolean verifyTicket(Ticket ticket) {
+        if (!ticketToCarMap.containsKey(ticket)) {
+            System.out.println("Unrecognized parking ticket.");
+            return false;
+        }
+        return true;
+    }
 }
