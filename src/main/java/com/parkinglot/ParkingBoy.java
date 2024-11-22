@@ -46,7 +46,7 @@ public class ParkingBoy {
     }
 
     private ParkingLot getFetchingParkingLot(ParkingLot parkingLot, Ticket ticket) {
-        checkIfEmptyParkingLots();
+        checkIfEmptyParkingLots(parkingLot);
 
         if (checkIfFirstParkingLot(parkingLot)) {
             return parkingLot;
@@ -62,14 +62,14 @@ public class ParkingBoy {
         return Objects.equals(parkingLots.get(0), parkingLot) && parkingLot.isAvailable();
     }
 
-    private void checkIfEmptyParkingLots() {
+    private void checkIfEmptyParkingLots(ParkingLot parkingLot) {
         if (parkingLots.isEmpty()) {
-            throw new ParkingLotException(ParkingLot.NOT_AVAILABLE_POSITION);
+            parkingLots.add(parkingLot);
         }
     }
 
     private ParkingLot getParkingParkingLot(ParkingLot parkingLot) {
-        checkIfEmptyParkingLots();
+        checkIfEmptyParkingLots(parkingLot);
         if (checkIfFirstParkingLot(parkingLot)) {
             return parkingLot;
         }
