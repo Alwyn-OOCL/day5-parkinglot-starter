@@ -14,9 +14,7 @@ public class Customer {
     }
 
     public Ticket park(ParkingLot parkingLot, Car car) {
-        if (!parkingLot.checkCapacity()) {
-            return null;
-        }
+        parkingLot.checkCapacity();
         parkingLot.getCars().add(car);
         Ticket generateTicket = Ticket.generateTicket();
         parkingLot.getTicketToCarMap().put(generateTicket, car);
@@ -24,9 +22,7 @@ public class Customer {
     }
 
     public Car fetch(ParkingLot parkingLot, Ticket ticket) {
-        if (!parkingLot.verifyTicket(ticket)) {
-            return null;
-        }
+        parkingLot.verifyTicket(ticket);
         Car car = parkingLot.getTicketToCarMap().get(ticket);
         parkingLot.getCars().remove(car);
         parkingLot.getTicketToCarMap().remove(ticket);

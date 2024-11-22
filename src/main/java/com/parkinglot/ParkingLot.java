@@ -8,6 +8,8 @@ import java.util.Set;
 public class ParkingLot {
 
     private static final int DEFAULT_CAPACITY = 10;
+    public static final String UNRECOGNIZED_PARKING_TICKET = "Unrecognized parking ticket.";
+    public static final String NOT_AVAILABLE_POSITION = "Not available position.";
 
 
     private Set<Car> cars = new HashSet<>(DEFAULT_CAPACITY);
@@ -17,6 +19,7 @@ public class ParkingLot {
     public Set<Car> getCars() {
         return cars;
     }
+
     public void setCars(Set<Car> cars) {
         this.cars = cars;
     }
@@ -29,19 +32,15 @@ public class ParkingLot {
         this.ticketToCarMap = ticketToCarMap;
     }
 
-    public boolean checkCapacity() {
+    public void checkCapacity() {
         if (cars.size() >= DEFAULT_CAPACITY) {
-            System.out.println("Not available position.");
-            return false;
+            throw new RuntimeException(NOT_AVAILABLE_POSITION);
         }
-        return true;
     }
 
-    public boolean verifyTicket(Ticket ticket) {
+    public void verifyTicket(Ticket ticket) {
         if (!ticketToCarMap.containsKey(ticket)) {
-            System.out.println("Unrecognized parking ticket.");
-            return false;
+            throw new RuntimeException(UNRECOGNIZED_PARKING_TICKET);
         }
-        return true;
     }
 }
