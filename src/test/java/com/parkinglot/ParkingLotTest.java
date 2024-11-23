@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 class ParkingLotTest {
@@ -246,5 +248,56 @@ class ParkingLotTest {
         assertEquals(NOT_AVAILABLE_POSITION, exception.getMessage());
     }
 
+    @Test
+    void should_park_in_first_parking_lot_when_park_given_2_parkingLots_and_car_and_smartParkingBoy() {
+        // given
+        ParkingLot parkingLot1 = new ParkingLot();
+        ParkingLot parkingLot2 = new ParkingLot();
+        Car car = new Car();
+        List<ParkingLot> parkingLots = List.of(parkingLot1, parkingLot2);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
+        Customer customer = new Customer(smartParkingBoy);
+
+        parkingLot1.setCars(IntStream.range(0, 5)
+                .mapToObj(i -> new Car(UUID.randomUUID().toString()))
+                .collect(Collectors.toSet()));
+        parkingLot2.setCars(IntStream.range(0, 8)
+                .mapToObj(i -> new Car(UUID.randomUUID().toString()))
+                .collect(Collectors.toSet()));
+
+        // when
+        Ticket ticket = customer.parkCar(parkingLot2, car);
+
+        // then
+        assertNotNull(ticket);
+        assertEquals(6, parkingLot1.getCars().size());
+        assertEquals(8, parkingLot2.getCars().size());
+    }
+
+    @Test
+    void should_park_in_second_parking_lot_when_park_given_2_parking_lots_and_second_parking_lot_has_more_position_and_car_and_smartParkingBoy() {
+        // given
+        ParkingLot parkingLot1 = new ParkingLot();
+        ParkingLot parkingLot2 = new ParkingLot();
+        Car car = new Car();
+        List<ParkingLot> parkingLots = List.of(parkingLot1, parkingLot2);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
+        Customer customer = new Customer(smartParkingBoy);
+
+        parkingLot1.setCars(IntStream.range(0, 6)
+                .mapToObj(i -> new Car(UUID.randomUUID().toString()))
+                .collect(Collectors.toSet()));
+        parkingLot2.setCars(IntStream.range(0, 4)
+                .mapToObj(i -> new Car(UUID.randomUUID().toString()))
+                .collect(Collectors.toSet()));
+
+        // when
+        Ticket ticket = customer.parkCar(parkingLot2, car);
+
+        // then
+        assertNotNull(ticket);
+        assertEquals(6, parkingLot1.getCars().size());
+        assertEquals(5, parkingLot2.getCars().size());
+    }
 
 }
