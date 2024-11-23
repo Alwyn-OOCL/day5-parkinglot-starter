@@ -11,10 +11,11 @@ public class ParkingLot {
     public static final String UNRECOGNIZED_PARKING_TICKET = "Unrecognized parking ticket.";
     public static final String NOT_AVAILABLE_POSITION = "Not available position.";
 
+    private Integer totalCapacity = DEFAULT_CAPACITY;
+
 
     private Set<Car> cars = new HashSet<>(DEFAULT_CAPACITY);
     private Map<Ticket, Car> ticketToCarMap = new HashMap<>();
-
 
     public Set<Car> getCars() {
         return cars;
@@ -28,8 +29,8 @@ public class ParkingLot {
         return ticketToCarMap;
     }
 
-    public void setTicketToCarMap(Map<Ticket, Car> ticketToCarMap) {
-        this.ticketToCarMap = ticketToCarMap;
+    public void setTotalCapacity(Integer totalCapacity) {
+        this.totalCapacity = totalCapacity;
     }
 
     public void checkCapacity() {
@@ -46,5 +47,9 @@ public class ParkingLot {
 
     public boolean isAvailable() {
         return cars.size() < DEFAULT_CAPACITY;
+    }
+
+    public Integer getPositionRate() {
+        return (DEFAULT_CAPACITY - cars.size()) / DEFAULT_CAPACITY;
     }
 }
