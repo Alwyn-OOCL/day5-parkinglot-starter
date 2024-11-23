@@ -2,8 +2,6 @@ package com.parkinglot;
 
 public class Customer {
 
-    private String id;
-
     private ParkingBoy parkingBoy;
 
     public Ticket parkCar(ParkingLot parkingLot, Car car) {

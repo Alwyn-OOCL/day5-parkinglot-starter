@@ -7,23 +7,21 @@ import java.util.stream.IntStream;
 
 public class ParkingBoy {
 
-    private String id;
-
     private List<ParkingLot> parkingLots = new ArrayList<>();
 
     public Ticket parkCar(ParkingLot parkingLot, Car car) {
-        ParkingLot parkingParkingLot = getParkingParkingLot(parkingLot);
+        ParkingLot parkingParkingLot = getFinalParkingLot(parkingLot);
         processParkCar(parkingParkingLot, car);
         return getGenerateTicket(parkingParkingLot, car);
     }
 
-    private Ticket getGenerateTicket(ParkingLot parkingLot, Car car) {
+    protected Ticket getGenerateTicket(ParkingLot parkingLot, Car car) {
         Ticket generateTicket = Ticket.generateTicket();
         parkingLot.getTicketToCarMap().put(generateTicket, car);
         return generateTicket;
     }
 
-    private void processParkCar(ParkingLot parkingLot, Car car) {
+    protected void processParkCar(ParkingLot parkingLot, Car car) {
         parkingLot.checkCapacity();
         parkingLot.getCars().add(car);
     }
@@ -58,17 +56,17 @@ public class ParkingBoy {
         return parkingLots.get(parkingLotIndex);
     }
 
-    private boolean checkIfFirstParkingLot(ParkingLot parkingLot) {
+    protected boolean checkIfFirstParkingLot(ParkingLot parkingLot) {
         return Objects.equals(parkingLots.get(0), parkingLot) && parkingLot.isAvailable();
     }
 
-    private void checkIfEmptyParkingLots(ParkingLot parkingLot) {
+    protected void checkIfEmptyParkingLots(ParkingLot parkingLot) {
         if (parkingLots.isEmpty()) {
             parkingLots.add(parkingLot);
         }
     }
 
-    private ParkingLot getParkingParkingLot(ParkingLot parkingLot) {
+    private ParkingLot getFinalParkingLot(ParkingLot parkingLot) {
         checkIfEmptyParkingLots(parkingLot);
         if (checkIfFirstParkingLot(parkingLot)) {
             return parkingLot;
@@ -82,10 +80,6 @@ public class ParkingBoy {
     }
 
     public ParkingBoy() {
-    }
-
-    public ParkingBoy(String id) {
-        this.id = id;
     }
 
     public ParkingBoy(List<ParkingLot> parkingLots) {
