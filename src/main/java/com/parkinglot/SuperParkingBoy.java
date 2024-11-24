@@ -10,6 +10,7 @@ public class SuperParkingBoy extends ParkingBoy {
 
     public SuperParkingBoy(List<ParkingLot> parkingLots) {
         super(parkingLots);
+        this.setParkingStrategy(new HigherPositionRateStrategy());
     }
 
     @Override
@@ -21,10 +22,7 @@ public class SuperParkingBoy extends ParkingBoy {
 
     public ParkingLot getFinalParkingLot(ParkingLot parkingLot) {
         super.checkIfEmptyParkingLots(parkingLot);
-        return getParkingLots().stream()
-                .filter(ParkingLot::isAvailable)
-                .max(Comparator.comparingDouble(ParkingLot::getPositionRate))
-                .orElseThrow(() -> new ParkingLotException(ParkingLot.NOT_AVAILABLE_POSITION));
+        return getParkingStrategy().selectParkingLot(getParkingLots());
     }
 
 }

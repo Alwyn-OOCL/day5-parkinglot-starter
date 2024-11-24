@@ -7,6 +7,8 @@ import java.util.stream.IntStream;
 
 public class ParkingBoy {
 
+    private ParkingStategy parkingStrategy;
+
     private List<ParkingLot> parkingLots = new ArrayList<>();
 
     public Ticket parkCar(ParkingLot parkingLot, Car car) {
@@ -50,10 +52,7 @@ public class ParkingBoy {
             return parkingLot;
         }
 
-        int parkingLotIndex = IntStream.range(0, parkingLots.size())
-                .filter(i -> parkingLots.get(i).getTicketToCarMap().containsKey(ticket)).findFirst()
-                .orElseThrow(() -> new ParkingLotException(ParkingLot.UNRECOGNIZED_PARKING_TICKET));
-        return parkingLots.get(parkingLotIndex);
+        return getParkingStrategy().selectParkingLot(getParkingLots());
     }
 
     protected boolean checkIfFirstParkingLot(ParkingLot parkingLot) {
@@ -72,11 +71,7 @@ public class ParkingBoy {
             return parkingLot;
         }
 
-        int parkingLotIndex = IntStream.range(0, parkingLots.size())
-                .filter(i -> parkingLots.get(i).isAvailable()).findFirst()
-                .orElseThrow(() -> new ParkingLotException(ParkingLot.NOT_AVAILABLE_POSITION));
-
-        return parkingLots.get(parkingLotIndex);
+        return getParkingStrategy().selectParkingLot(getParkingLots());
     }
 
     public ParkingBoy() {
@@ -84,9 +79,18 @@ public class ParkingBoy {
 
     public ParkingBoy(List<ParkingLot> parkingLots) {
         this.parkingLots = parkingLots;
+        this.setParkingStrategy(new SequentialStrategy());
     }
 
     public List<ParkingLot> getParkingLots() {
         return parkingLots;
+    }
+
+    public ParkingStategy getParkingStrategy() {
+        return parkingStrategy;
+    }
+
+    public void setParkingStrategy(ParkingStategy parkingStrategy) {
+        this.parkingStrategy = parkingStrategy;
     }
 }
